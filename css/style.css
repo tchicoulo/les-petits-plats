@@ -12,7 +12,7 @@ body {
 /* HEADER */
 
 header {
-  font-family: lato, sans-serif;
+  font-family: Lato, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -51,9 +51,9 @@ header {
   top: 40px;
 }
 
-/* FILTERED INFO SECTION  */
+/* FILTERED SELECTED ITEM SECTION  */
 
-.filtered-container {
+.filtered-result {
   display: flex;
   flex-wrap: wrap;
   margin-top: 30px;
@@ -62,7 +62,8 @@ header {
 }
 
 .filtered-details {
-  min-width: 10%;
+  padding: 5px 12px;
+  min-width: 60px;
   min-height: 37px;
   display: flex;
   justify-content: space-evenly;
@@ -73,14 +74,55 @@ header {
   margin: 0 15px 5px 0;
 }
 
+.filtered-details span {
+  overflow-wrap: break-word;
+  margin-right: 5px;
+  font-size: 14px;
+}
+
 .delete-selected-filter {
   cursor: pointer;
+  margin: 5px;
 }
 
 /* FILTER SECTION */
 
 .filters {
+  font-weight: bold;
   display: flex;
-  border: 1px solid blue;
+  flex-wrap: wrap;
+  font-size: 18px;
   width: 100%;
+  position: relative;
+  border: 1px solid salmon;
+}
+
+.filter-container {
+  padding: 5px 12px;
+  width: 170px;
+  height: 69px;
+  min-width: 80px;
+  min-height: 37px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  margin: 0 15px 5px 0;
+}
+
+.filter-container:nth-child(1) {
+  background: #3282f7;
+}
+
+.filter-container:nth-child(2) {
+  background: #68d9a4;
+}
+
+.filter-container:nth-child(3) {
+  background: #ed6454;
+}
+
+.container-list {
+  border: 1px solid orange;
 }

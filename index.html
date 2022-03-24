@@ -14,6 +14,7 @@
   </head>
   <body>
     <header>
+
       <img
         class="logo"
         src="./assets/images/logo.png"
@@ -24,22 +25,43 @@
         <img class="search-icon" src="./assets/icons/search.png"></img>
       </div>
 
-      <div class="filtered-container">
+      <div class="filtered-result">
         <div class="filtered-details">
-          <span>Coco .static</span>
+          <span>Coco x static</span>
           <img class="delete-selected-filter" src="./assets/icons/delete.svg"></img>
         </div>
         <div class="filtered-details">
-          <span>Coco .static</span>
+          <span>Curry</span>
           <img class="delete-selected-filter" src="./assets/icons/delete.svg"></img>
         </div>
       </div>
 
       <div class="filters">
-        <input type="text" id="ingredients" placeholder="Ingrédients" />
-        <input type="text" id="appliances" placeholder="Appareils" />
-        <input type="text" id="utensils" placeholder="Ustensiles" />
+
+        <div class="filter-container">
+          <span>Ingrédients</span>
+          <img class="search-icon-ingredients" src="./assets/icons/arrow-down.svg"></img>
+        </div>
+
+        <div class="filter-container">
+          <span id="appliances">Appareils</span>
+          <img class="search-icon-appliances" src="./assets/icons/arrow-down.svg"></img>
+        </div>
+
+        <div class="filter-container">
+          <span id="utensils">Ustensiles</span>
+          <img class="search-icon-utensils" src="./assets/icons/arrow-down.svg"></img>
+        </div>
+
       </div>
+      <div class="container-list">
+        <input type="text" id="ingredients" placeholder="Rechercher un ingrédient">
+         <img class="search-ingredient-open" src="./assets/icons/arrow-up.svg"></img>
+        <div class="ingredients-list">
+          <h3>ingredients list ...</h3>
+        </div>
+      </div>
+
     </header>
     <main>
       <div class="container">
