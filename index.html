@@ -14,7 +14,6 @@
   </head>
   <body>
     <header>
-
       <img
         class="logo"
         src="./assets/images/logo.png"
@@ -22,51 +21,125 @@
       />
       <div class="search-container">
         <input type="text" id="search" placeholder="Rechercher une recette" />
-        <img class="search-icon" src="./assets/icons/search.png"></img>
+        <img class="search-icon" src="./assets/icons/search.png" />
       </div>
 
       <div class="filtered-result">
         <div class="filtered-details">
           <span>Coco x static</span>
-          <img class="delete-selected-filter" src="./assets/icons/delete.svg"></img>
+          <img class="delete-selected-filter" src="./assets/icons/delete.svg" />
         </div>
         <div class="filtered-details">
           <span>Curry</span>
-          <img class="delete-selected-filter" src="./assets/icons/delete.svg"></img>
+          <img class="delete-selected-filter" src="./assets/icons/delete.svg" />
         </div>
       </div>
 
       <div class="filters">
-
         <div class="filter-container">
           <span>Ingrédients</span>
-          <img class="search-icon-ingredients" src="./assets/icons/arrow-down.svg"></img>
+          <img
+            class="search-icon-ingredients"
+            src="./assets/icons/arrow-down.svg"
+          />
         </div>
 
         <div class="filter-container">
-          <span id="appliances">Appareils</span>
-          <img class="search-icon-appliances" src="./assets/icons/arrow-down.svg"></img>
+          <span>Appareils</span>
+          <img
+            class="search-icon-appliances"
+            src="./assets/icons/arrow-down.svg"
+          />
         </div>
 
         <div class="filter-container">
-          <span id="utensils">Ustensiles</span>
-          <img class="search-icon-utensils" src="./assets/icons/arrow-down.svg"></img>
+          <span>Ustensiles</span>
+          <img
+            class="search-icon-utensils"
+            src="./assets/icons/arrow-down.svg"
+          />
         </div>
-
       </div>
+
       <div class="container-list">
-        <input type="text" id="ingredients" placeholder="Rechercher un ingrédient">
-         <img class="search-ingredient-open" src="./assets/icons/arrow-up.svg"></img>
-        <div class="ingredients-list">
-          <h3>ingredients list ...</h3>
-        </div>
+        <input
+          type="text"
+          id="ingredients"
+          placeholder="Rechercher un ingrédient"
+        />
+        <img src="./assets/icons/arrow-up.svg" />
+        <ul class="ingredients-list">
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+        </ul>
       </div>
 
-    </header>
-    <main>
-      <div class="container">
-        <ul id="result"></ul>
+      <div class="container-list">
+        <input
+          type="text"
+          id="appliances"
+          placeholder="Rechercher un Appareil"
+        />
+        <img src="./assets/icons/arrow-up.svg" />
+        <ul class="appliances-list">
+          <li>coco</li>
+          <li>Jus de citron</li>
+          <li>Poivron rouge</li>
+          <li>Moutarde de dijon</li>
+          <li>Beurre</li>
+        </ul>
       </div>
+
+      <div class="container-list">
+        <input
+          type="text"
+          id="utensils"
+          placeholder="Rechercher un Ustensile"
+        />
+        <img src="./assets/icons/arrow-up.svg" />
+        <ul class="utensils-list">
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+          <li>coco</li>
+        </ul>
+      </div>
+    </header>
+
+    <main>
+      <ul id="result">
+        <li class="card">
+          <img
+            src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            alt="image static"
+          />
+          <div class="card-info">
+            <div class="card-title">
+              <h1>Limonade de Coco</h1>
+              <img src="./assets/icons/time.svg" alt="Logo temps de cuisson" />
+              <span>10 min</span>
+            </div>
+            <div class="card-description">
+              <ul>
+                <li>Lait de coco: 400ml</li>
+                <li>Jus de citron: 2</li>
+                <li>Crème de coco: 4 cuillères</li>
+                <li>Sucre: 20g</li>
+                <li>Glacons: 2</li>
+              </ul>
+              <p>
+                Mettre les glaçons à votre goût dans le blender, ajouter le
+                lait, la crème de coco, le jus de 2 citrons et le sucre. Mixer
+                jusqu'à avoir la consistence désirée
+              </p>
+            </div>
+          </div>
+        </li>
+      </ul>
     </main>
     <script type="module" src="./scripts/pages/index.js"></script>
   </body>
