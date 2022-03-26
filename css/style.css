@@ -87,6 +87,7 @@ header {
 /* FILTER SECTION */
 
 .filters {
+  border: 1px solid red;
   font-weight: bold;
   display: flex;
   flex-wrap: wrap;
@@ -109,19 +110,19 @@ header {
   margin: 0 15px 5px 0;
 }
 
-.filter-container:nth-child(1),
+.filter-ingredients,
 #ingredients,
 .ingredients-list {
   background-color: #3282f7;
 }
 
-.filter-container:nth-child(2),
+.filter-appliances,
 #appliances,
 .appliances-list {
   background-color: #68d9a4;
 }
 
-.filter-container:nth-child(3),
+.filter-utensils,
 #utensils,
 .utensils-list {
   background-color: #ed6454;
@@ -130,6 +131,7 @@ header {
 .container-list {
   width: 50%;
   position: relative;
+  display: none;
 }
 
 .container-list > input {
@@ -170,6 +172,14 @@ header {
   width: 33%;
   height: 40px;
   min-width: 120px;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
 }
 
 /* CARD SECTION */
