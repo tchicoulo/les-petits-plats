@@ -13,7 +13,7 @@ const appliancesElementList = document.querySelector(".container-appliances");
 const utensilsElementList = document.querySelector(".container-utensils");
 
 filterContainers.forEach((filterContainer, index) => {
-  filterContainer.addEventListener("click", () => openFilter(index));
+  filterContainer.addEventListener("click", () => toggleFilter(index));
 });
 
 filterListArrowCloseButton.forEach((filterClosebutton, index) => {
@@ -21,7 +21,7 @@ filterListArrowCloseButton.forEach((filterClosebutton, index) => {
 });
 
 document.addEventListener("click", (e) => {
-  const filterContainersList = document.querySelectorAll(".container-list");
+  // const filterContainersList = document.querySelectorAll(".container-list");
 
   // filterContainersList.forEach((containerList) => {
   //   if (containerList.classList.contains("show")) {
@@ -29,38 +29,27 @@ document.addEventListener("click", (e) => {
   //     closeFilter(e);
   //   } else {
   //     console.log("no");
-  //     e.preventDefault();
+  e.preventDefault();
   //   }
   // });
 });
 
-function openFilter(index) {
+function toggleFilter(index) {
   if (index === 0) {
-    ingredientElement.classList.add("hide");
-    ingredientsElementList.classList.add("show");
+    ingredientElement.classList.toggle("hide");
+    ingredientsElementList.classList.toggle("show");
   } else if (index === 1) {
-    appliancesElement.classList.add("hide");
-    appliancesElementList.classList.add("show");
+    appliancesElement.classList.toggle("hide");
+    appliancesElementList.classList.toggle("show");
   } else if (index === 2) {
-    utensilsElement.classList.add("hide");
-    utensilsElementList.classList.add("show");
+    utensilsElement.classList.toggle("hide");
+    utensilsElementList.classList.toggle("show");
   }
 }
 
 function closeFilter(e, index) {
   if (index === "undefined") {
     e.preventDefault();
-  } else if (index === 0) {
-    ingredientElement.classList.remove("hide");
-    ingredientsElementList.classList.remove("show");
-    console.log(index);
-  } else if (index === 1) {
-    appliancesElement.classList.remove("hide");
-    appliancesElementList.classList.remove("show");
-    console.log(index);
-  } else if (index === 2) {
-    utensilsElement.classList.remove("hide");
-    utensilsElementList.classList.remove("show");
-    console.log(index);
   }
+  toggleFilter(index);
 }
