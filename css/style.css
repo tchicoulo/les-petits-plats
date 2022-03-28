@@ -87,7 +87,6 @@ header {
 /* FILTER SECTION */
 
 .filters {
-  border: 1px solid red;
   font-weight: bold;
   display: flex;
   flex-wrap: wrap;
@@ -108,6 +107,8 @@ header {
   color: white;
   border-radius: 5px;
   margin: 0 15px 5px 0;
+  cursor: pointer;
+  /* transition: 0.5s; */
 }
 
 .filter-ingredients,
@@ -176,9 +177,11 @@ header {
 
 .show {
   display: block;
+  animation: openFilterList ease-in-out 0.7s forwards;
 }
 
 .hide {
+  animation: closeFilterList 1s forwards;
   display: none;
 }
 
@@ -252,4 +255,37 @@ main {
 
 .card-description li {
   list-style-type: none;
+}
+
+/* ANIMATION */
+
+@keyframes openFilterList {
+  from {
+    transform: scale(0.2, 0.3);
+    transform-origin: top left;
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1, 0.5);
+    transform-origin: top left;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1, 1);
+    transform-origin: top left;
+  }
+}
+
+@keyframes closeFilterList {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
