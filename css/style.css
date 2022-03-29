@@ -96,6 +96,7 @@ header {
 }
 
 .filter-container {
+  user-select: none;
   padding: 5px 12px;
   width: 170px;
   height: 69px;
@@ -133,6 +134,7 @@ header {
   width: 50%;
   position: relative;
   display: none;
+  margin-right: 15px;
 }
 
 .container-list > input {
@@ -223,8 +225,8 @@ main {
 
 .card-info {
   background-color: #e7e7e7;
-  height: 200px;
-  padding-bottom: 35px;
+  height: 230px;
+  padding-bottom: 55px;
   border-radius: 0 0 5px 5px;
 }
 
@@ -248,10 +250,20 @@ main {
 
 .card-description ul {
   width: 45%;
+  min-width: 20%;
+  border: 1px solid blue;
+  max-height: 120px;
 }
 
 .card-description p {
+  display: -webkit-box;
+  -webkit-line-clamp: 7;
+  -webkit-box-orient: vertical;
+  border: 1px solid black;
   width: 50%;
+  min-width: 20%;
+  max-height: 120px;
+  overflow: hidden;
 }
 
 .card-description li {
