@@ -1,9 +1,5 @@
 "use strict";
 
-import { recipes } from "../../data/recipes.js";
-
-console.log(recipes);
-
 const filterContainers = document.querySelectorAll(".filter-container");
 const filterListArrowCloseButton = document.querySelectorAll(
   ".container-list img"
