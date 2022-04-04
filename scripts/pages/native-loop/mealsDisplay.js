@@ -1,43 +1,136 @@
 import { recipes } from "../../../data/recipes.js";
 
-console.log(recipes);
+let arrayFilteredRecipeIndex = [];
+let uniqueIngredientsList = [];
 
 const searchContainer = document.querySelector(".search-container input");
-const result = document.getElementById("result");
 
 searchContainer.addEventListener("input", (e) => {
   mealsdisplay(e);
 });
 
-function mealsdisplay(e) {
-  if (e.target.value.length >= 3) {
-    for (let i = 0; i < recipes.length; i++) {
-      let ingredients = [];
-      let appliances = [];
-      let utensils = [];
-      let recipe = recipes[i];
+//Supprime les ingredients sans quantité et uniformise les données
+function initData() {
+  let uniqueIngredientsSet = new Set();
+  for (let i = 0; i < recipes.length; i++) {
+    let recipe = recipes[i];
 
-      for (let j = 0; j < recipe.ingredients.length; j++) {
-        let detailsIngredients = recipe.ingredients[j];
+    let arrayIngredients = [];
+    // let arrayAppliances = [];
+    // let arrayUtensils = [];
 
-        // console.log(detailsIngredients);
-        // if (Object.keys(detailsIngredients).length === 1) {
-        // delete detailsIngredients.ingredient;
-        // detailsIngredients.quantite = detailsIngredients.quantity;
-        // }
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      let detailsIngredients = recipe.ingredients[j];
 
-        ingredients.push(
-          `<li><b>${detailsIngredients.ingredient}: </b>${
-            detailsIngredients.quantity
-              ? detailsIngredients.quantity
-              : detailsIngredients.quantite
-              ? detailsIngredients.quantite
-              : ""
-          } ${detailsIngredients.unit ? detailsIngredients.unit : ""}`
-        );
+      if (detailsIngredients.quantite) {
+        detailsIngredients["quantity"] = detailsIngredients["quantite"];
+        delete detailsIngredients["quantite"];
       }
 
-      result.innerHTML += `<li class="card">
+      if (detailsIngredients.quantity) {
+        arrayIngredients.push(detailsIngredients);
+        uniqueIngredientsSet.add(detailsIngredients.ingredient);
+      }
+    }
+    recipe["ingredients"] = arrayIngredients;
+  }
+  uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
+
+  const searchContainer = document.querySelector(".search-container input");
+
+  searchContainer.addEventListener("input", (e) => {
+    if (e.target.value.length >= 3) {
+      searchFilter(e);
+    } else {
+      arrayFilteredRecipeIndex = [];
+    }
+    mealsdisplay(e);
+  });
+}
+
+// Recherche les index de recettes par mots clés
+function searchFilter(e) {
+  // tableau des index qui correspondent
+  arrayFilteredRecipeIndex = [];
+
+  //tableau des mots inscrits dans l'input
+  const search = e.target.value.split(" ");
+
+  for (let i = 0; i < recipes.length; i++) {
+    let recipe = recipes[i];
+
+    let isValid = searchWords(recipe, search);
+
+    //
+    if (isValid) {
+      arrayFilteredRecipeIndex.push(i);
+    }
+  }
+}
+
+/**
+ * indiquer si les mots sont présents dans la recettes
+ * @param {object} recipe objet de la recette
+ * @param {string[]} search tableau des mots a rechercher
+ * @returns {boolean} true : si tous les mots sont trouvés
+ */
+
+function searchWords(recipe, search) {
+  //Boucle de recherche par mots
+  for (let searchIndex = 0; searchIndex < search.length; searchIndex++) {
+    let searchWord = search[searchIndex];
+
+    if (recipe.name.includes(searchWord)) {
+      continue;
+    } else if (recipe.description.includes(searchWord)) {
+      continue;
+    } else {
+      // hasResult = mot présent dans un ingredient
+      let hasResult = false;
+
+      for (let j = 0; j < recipe.ingredients.length; j++) {
+        if (recipe.ingredients[j].ingredient.includes(searchWord)) {
+          // mot tapé dans l'input présent dans l'ingrédient
+          hasResult = true;
+          break;
+        }
+      }
+      // si mot trouvé, on cherche le mot suivant
+      if (hasResult) {
+        continue;
+      }
+      // mot non trouvé, recette rejeté
+      return false;
+    }
+  }
+  return true;
+}
+
+function mealsdisplay(e) {
+  const result = document.getElementById("result");
+  result.innerHTML = "";
+
+  for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
+    let recipeIndex = arrayFilteredRecipeIndex[i];
+
+    let ingredients = [];
+    // let appliances = [];
+    // let utensils = [];
+    let recipe = recipes[recipeIndex];
+
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      let detailsIngredients = recipe.ingredients[j];
+
+      let quantity = detailsIngredients.quantity;
+
+      ingredients.push(
+        `<li><b>${detailsIngredients.ingredient}: </b>${quantity} ${
+          detailsIngredients.unit ? detailsIngredients.unit : ""
+        }`
+      );
+    }
+
+    result.innerHTML += `<li class="card">
           <img
           src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
           alt="image static"
@@ -54,6 +147,54 @@ function mealsdisplay(e) {
             </div>
           </div>
           </li>`;
-    }
   }
 }
+
+let inputIngredient = document.getElementById("ingredients");
+
+inputIngredient.addEventListener("input", (e) => {
+  let filteredIngredient = genericFilterSearch(
+    uniqueIngredientsList,
+    e.target.value
+  );
+  displayIngredient(filteredIngredient);
+});
+
+function displayIngredient(ingredientNameList) {
+  let ingredientList = document.querySelector(".ingredients-list");
+  ingredientList.innerHTML = "";
+  for (let i = 0; i < ingredientNameList.length; i++) {
+    ingredientList.innerHTML += `<li>${ingredientNameList[i]}</li>`;
+  }
+}
+
+function genericFilterSearch(listText, search) {
+  let searchListWord = search.split(" ");
+  let validText = [];
+  for (
+    let listTextIndex = 0;
+    listTextIndex < listText.length;
+    listTextIndex++
+  ) {
+    let hasAllWord = true;
+    let text = listText[listTextIndex];
+    for (
+      let searchIndex = 0;
+      searchIndex < searchListWord.length;
+      searchIndex++
+    ) {
+      let searchWord = search[searchIndex];
+      if (text.includes(searchWord)) {
+        continue;
+      }
+      hasAllWord = false;
+    }
+    if (hasAllWord) {
+      validText.push(listText[listTextIndex]);
+    }
+  }
+  return validText;
+}
+
+initData();
+displayIngredient(uniqueIngredientsList);
