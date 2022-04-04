@@ -6,7 +6,7 @@ let uniqueIngredientsList = [];
 const searchContainer = document.querySelector(".search-container input");
 
 searchContainer.addEventListener("input", (e) => {
-  mealsdisplay(e);
+  mealsDisplay(e);
 });
 
 //Supprime les ingredients sans quantité et uniformise les données
@@ -36,6 +36,8 @@ function initData() {
   }
   uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
 
+  console.log(uniqueIngredientsList);
+
   const searchContainer = document.querySelector(".search-container input");
 
   searchContainer.addEventListener("input", (e) => {
@@ -44,7 +46,7 @@ function initData() {
     } else {
       arrayFilteredRecipeIndex = [];
     }
-    mealsdisplay(e);
+    mealsDisplay(e);
   });
 }
 
@@ -106,7 +108,7 @@ function searchWords(recipe, search) {
   return true;
 }
 
-function mealsdisplay(e) {
+function mealsDisplay(e) {
   const result = document.getElementById("result");
   result.innerHTML = "";
 
@@ -120,7 +122,6 @@ function mealsdisplay(e) {
 
     for (let j = 0; j < recipe.ingredients.length; j++) {
       let detailsIngredients = recipe.ingredients[j];
-
       let quantity = detailsIngredients.quantity;
 
       ingredients.push(
@@ -157,10 +158,10 @@ inputIngredient.addEventListener("input", (e) => {
     uniqueIngredientsList,
     e.target.value
   );
-  displayIngredient(filteredIngredient);
+  ingredientsDisplay(filteredIngredient);
 });
 
-function displayIngredient(ingredientNameList) {
+function ingredientsDisplay(ingredientNameList) {
   let ingredientList = document.querySelector(".ingredients-list");
   ingredientList.innerHTML = "";
   for (let i = 0; i < ingredientNameList.length; i++) {
@@ -176,7 +177,7 @@ function genericFilterSearch(listText, search) {
     listTextIndex < listText.length;
     listTextIndex++
   ) {
-    let hasAllWord = true;
+    let hasAllWord = false;
     let text = listText[listTextIndex];
     for (
       let searchIndex = 0;
@@ -187,14 +188,15 @@ function genericFilterSearch(listText, search) {
       if (text.includes(searchWord)) {
         continue;
       }
-      hasAllWord = false;
+      hasAllWord = true;
     }
     if (hasAllWord) {
       validText.push(listText[listTextIndex]);
     }
   }
+  console.log(validText);
   return validText;
 }
 
 initData();
-displayIngredient(uniqueIngredientsList);
+ingredientsDisplay(uniqueIngredientsList);

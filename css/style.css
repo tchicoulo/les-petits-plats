@@ -169,6 +169,12 @@ header {
   padding: 20px;
   font-size: 17px;
   border-radius: 0px 0px 5px 5px;
+  max-height: 500px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }
 
 .container-list li {
