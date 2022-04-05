@@ -6,7 +6,12 @@ let uniqueIngredientsList = [];
 const searchContainer = document.querySelector(".search-container input");
 
 searchContainer.addEventListener("input", (e) => {
-  mealsDisplay(e);
+  if (e.target.value.length >= 3) {
+    searchFilter(e);
+  } else if (e.target.value.length === 0) {
+    initData();
+  }
+  mealsDisplay();
 });
 
 //Supprime les ingredients sans quantité et uniformise les données
@@ -14,6 +19,8 @@ function initData() {
   let uniqueIngredientsSet = new Set();
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
+
+    arrayFilteredRecipeIndex.push(i);
 
     let arrayIngredients = [];
     // let arrayAppliances = [];
@@ -37,17 +44,7 @@ function initData() {
   uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
 
   console.log(uniqueIngredientsList);
-
-  const searchContainer = document.querySelector(".search-container input");
-
-  searchContainer.addEventListener("input", (e) => {
-    if (e.target.value.length >= 3) {
-      searchFilter(e);
-    } else {
-      arrayFilteredRecipeIndex = [];
-    }
-    mealsDisplay(e);
-  });
+  mealsDisplay();
 }
 
 // Recherche les index de recettes par mots clés
@@ -57,6 +54,8 @@ function searchFilter(e) {
 
   //tableau des mots inscrits dans l'input
   const search = e.target.value.split(" ");
+
+  //transformer search pour la casse en maj et sans accents
 
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
@@ -108,7 +107,7 @@ function searchWords(recipe, search) {
   return true;
 }
 
-function mealsDisplay(e) {
+function mealsDisplay() {
   const result = document.getElementById("result");
   result.innerHTML = "";
 
@@ -169,34 +168,34 @@ function ingredientsDisplay(ingredientNameList) {
   }
 }
 
-function genericFilterSearch(listText, search) {
-  let searchListWord = search.split(" ");
-  let validText = [];
-  for (
-    let listTextIndex = 0;
-    listTextIndex < listText.length;
-    listTextIndex++
-  ) {
-    let hasAllWord = false;
-    let text = listText[listTextIndex];
-    for (
-      let searchIndex = 0;
-      searchIndex < searchListWord.length;
-      searchIndex++
-    ) {
-      let searchWord = search[searchIndex];
-      if (text.includes(searchWord)) {
-        continue;
-      }
-      hasAllWord = true;
-    }
-    if (hasAllWord) {
-      validText.push(listText[listTextIndex]);
-    }
-  }
-  console.log(validText);
-  return validText;
-}
+// function genericFilterSearch(listText, search) {
+//   let searchListWord = search.split(" ");
+//   let validText = [];
+//   for (
+//     let listTextIndex = 0;
+//     listTextIndex < listText.length;
+//     listTextIndex++
+//   ) {
+//     let hasAllWord = false;
+//     let text = listText[listTextIndex];
+//     for (
+//       let searchIndex = 0;
+//       searchIndex < searchListWord.length;
+//       searchIndex++
+//     ) {
+//       let searchWord = search[searchIndex];
+//       if (text.includes(searchWord)) {
+//         continue;
+//       }
+//       hasAllWord = true;
+//     }
+//     if (hasAllWord) {
+//       validText.push(listText[listTextIndex]);
+//     }
+//   }
+//   console.log(validText);
+//   return validText;
+// }
 
 initData();
 ingredientsDisplay(uniqueIngredientsList);
