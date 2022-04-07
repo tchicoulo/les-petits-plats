@@ -1,9 +1,9 @@
 import { recipes } from "../../../../data/recipes.js";
 import { mealsDisplay } from "../mealsDisplay.js";
+import { filterIngredients } from "../models/Filters.js";
 //Supprime les ingredients sans quantité et uniformise les données
 function initData() {
   let arrayFilteredRecipeIndex = [];
-
   let uniqueIngredientsList = [];
 
   let uniqueIngredientsSet = new Set();
@@ -38,8 +38,10 @@ function initData() {
     recipe["ingredients"] = arrayIngredients;
   }
   console.log(arrayFilteredRecipeIndex);
-  // uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
+  uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
 
+  // console.log(uniqueIngredientsList);
+  filterIngredients(uniqueIngredientsList, arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 

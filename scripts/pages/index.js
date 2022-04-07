@@ -20,25 +20,26 @@ filterListArrowCloseButton.forEach((filterClosebutton, index) => {
   filterClosebutton.addEventListener("click", (e) => closeFilter(e, index));
 });
 
-document.addEventListener("click", (e) => {
-  const ignore = document.querySelector(".filters");
-  const target = e.target;
+// document.addEventListener("click", (e) => {
+//   const ignore = document.querySelector(".filters");
 
-  if (target === ignore || ignore.contains(target)) {
-    return console.log("ignore");
-  }
+//   const target = e.target;
 
-  filterContainersList.forEach((containerList) => {
-    if (containerList.classList.contains("show")) {
-      containerList.classList.remove("show");
-    }
-  });
-  filterContainers.forEach((containerFilter) => {
-    if (containerFilter.classList.contains("hide")) {
-      containerFilter.classList.remove("hide");
-    }
-  });
-});
+//   if (target === ignore || ignore.contains(target)) {
+//     return console.log("ignore");
+//   }
+
+//   filterContainersList.forEach((containerList) => {
+//     if (containerList.classList.contains("show")) {
+//       containerList.classList.remove("show");
+//     }
+//   });
+//   filterContainers.forEach((containerFilter) => {
+//     if (containerFilter.classList.contains("hide")) {
+//       containerFilter.classList.remove("hide");
+//     }
+//   });
+// });
 
 function toggleFilter(index) {
   if (index === 0) {
