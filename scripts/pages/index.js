@@ -1,5 +1,3 @@
-"use strict";
-
 const filterContainers = document.querySelectorAll(".filter-container");
 const filterListArrowCloseButton = document.querySelectorAll(
   ".container-list img"
