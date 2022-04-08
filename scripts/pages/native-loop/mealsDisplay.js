@@ -56,54 +56,23 @@ function mealsDisplay(arrayFilteredRecipeIndex) {
   }
 }
 
-let inputIngredient = document.getElementById("ingredients");
+// let inputIngredient = document.getElementById("ingredients");
 
-inputIngredient.addEventListener("input", (e) => {
-  // let filteredIngredient = genericFilterSearch(
-  //   uniqueIngredientsList,
-  //   e.target.value
-  // );
-  ingredientsDisplay();
-});
+// inputIngredient.addEventListener("input", (e) => {
+//   // let filteredIngredient = genericFilterSearch(
+//   //   uniqueIngredientsList,
+//   //   e.target.value
+//   // );
+//   ingredientsDisplay();
+// });
 
-function ingredientsDisplay(ingredientNameList) {
-  let ingredientList = document.querySelector(".ingredients-list");
-  ingredientList.innerHTML = "";
-  for (let i = 0; i < ingredientNameList.length; i++) {
-    ingredientList.innerHTML += `<li>${ingredientNameList[i]}</li>`;
-  }
-}
-
-/////////////////////////////////
-// function genericFilterSearch(listText, search) {
-//   let searchListWord = search.split(" ");
-//   let validText = [];
-//   for (
-//     let listTextIndex = 0;
-//     listTextIndex < listText.length;
-//     listTextIndex++
-//   ) {
-//     let hasAllWord = false;
-//     let text = listText[listTextIndex];
-//     for (
-//       let searchIndex = 0;
-//       searchIndex < searchListWord.length;
-//       searchIndex++
-//     ) {
-//       let searchWord = search[searchIndex];
-//       if (text.includes(searchWord)) {
-//         continue;
-//       }
-//       hasAllWord = true;
-//     }
-//     if (hasAllWord) {
-//       validText.push(listText[listTextIndex]);
-//     }
+// function ingredientsDisplay(ingredientNameList) {
+//   let ingredientList = document.querySelector(".ingredients-list");
+//   ingredientList.innerHTML = "";
+//   for (let i = 0; i < ingredientNameList.length; i++) {
+//     ingredientList.innerHTML += `<li>${ingredientNameList[i]}</li>`;
 //   }
-//   console.log(validText);
-//   return validText;
 // }
-/////////////////////////////////////
 
 initData();
 // ingredientsDisplay();

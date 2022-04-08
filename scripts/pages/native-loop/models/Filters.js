@@ -1,14 +1,13 @@
-// import { uniqueIngredientsList } from "../mealsDisplay.js";
+import { recipes } from "../../../../data/recipes.js";
 
-// let inputIngredient = document.getElementById("ingredients");
-
-// inputIngredient.addEventListener("input", (e) => {
-//   // let filteredIngredient = genericFilterSearch(
-//   //   uniqueIngredientsList,
-//   //   e.target.value
-//   // );
-//   ingredientsDisplay(filteredIngredient);
-// });
+setTimeout(() => {
+  const ingredientElement = document.querySelectorAll(".ingredients-list li");
+  for (let i = 0; i < ingredientElement.length; i++) {
+    ingredientElement[i].addEventListener("click", () =>
+      addFilterIngredientTag(i, ingredientElement)
+    );
+  }
+}, 300);
 
 function ingredientsDisplay(ingredientNameList) {
   let ingredientList = document.querySelector(".ingredients-list");
@@ -19,22 +18,34 @@ function ingredientsDisplay(ingredientNameList) {
   }
 }
 
-setTimeout(() => {
-  const ingredientElement = document.querySelectorAll(".ingredients-list li");
-  for (let i = 0; i < ingredientElement.length; i++) {
-    ingredientElement[i].addEventListener("click", () => {
-      console.log(ingredientElement[i].textContent);
-      ingredientElement[i].remove();
-    });
-  }
-}, 300);
+function addFilterIngredientTag(i, ingredientElement) {
+  const filterTag = document.querySelector(".tag");
+  console.log(ingredientElement[i].innerHTML);
+  ingredientElement[i].remove();
 
-function filterIngredients(ingredientNameList, arrayFilteredRecipeIndex) {
-  console.log(ingredientNameList);
-  console.log(arrayFilteredRecipeIndex);
-  console.log("ok");
+  filterTag.innerHTML += `
+    <div class="filtered-details">
+      <span>${ingredientElement[i].innerHTML}</span>
+      <img class="delete-selected-filter" src="./assets/icons/delete.svg" />
+    </div>
+  `;
 
-  ingredientsDisplay(ingredientNameList);
+  deleteFiltertag();
 }
 
-export { filterIngredients };
+function deleteFiltertag() {
+  const deleteTag = document.querySelectorAll(".delete-selected-filter");
+  for (let i = 0; i < deleteTag.length; i++) {
+    deleteTag[i].addEventListener("click", (e) => {
+      e.path[1].remove();
+    });
+  }
+}
+
+function filterIngredients(arrayFilteredRecipeIndex) {
+  console.log(arrayFilteredRecipeIndex);
+
+  ingredientsDisplay(arrayFilteredRecipeIndex);
+}
+
+export { filterIngredients, ingredientsDisplay };

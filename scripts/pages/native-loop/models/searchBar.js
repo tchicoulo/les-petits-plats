@@ -1,5 +1,6 @@
 import { recipes } from "../../../../data/recipes.js";
 import { mealsDisplay } from "../mealsDisplay.js";
+import { filterIngredients } from "./filters.js";
 
 // Recherche les index de recettes par mots clés
 function searchFilter(e, arrayFilteredRecipeIndex) {
@@ -16,7 +17,7 @@ function searchFilter(e, arrayFilteredRecipeIndex) {
       arrayFilteredRecipeIndex.push(i);
     }
   }
-  console.log(arrayFilteredRecipeIndex);
+  filterIngredients(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 
