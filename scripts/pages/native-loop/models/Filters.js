@@ -9,14 +9,49 @@ setTimeout(() => {
   }
 }, 300);
 
-function ingredientsDisplay(ingredientNameList) {
+function ingredientsDisplay(arrayFilteredRecipeIndex) {
   let ingredientList = document.querySelector(".ingredients-list");
+  let ingredientsTags = [];
+  let uniqueIngredientsSet = new Set();
+  let uniqueIngredientsList = [];
   ingredientList.innerHTML = "";
 
-  for (let i = 0; i < ingredientNameList.length; i++) {
-    ingredientList.innerHTML += `<li>${ingredientNameList[i]}</li>`;
+  console.log(arrayFilteredRecipeIndex);
+
+  for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
+    let recipeIndex = arrayFilteredRecipeIndex[i];
+
+    let recipe = recipes[recipeIndex];
+
+    for (let j = 0; j < recipe.ingredients.length; j++) {
+      let detailsIngredients = recipe.ingredients[j];
+      // console.log(recipe.ingredients[j]);
+
+      if (detailsIngredients.quantity) {
+        //normaliser les ingrédients et les mettre en minuscule
+        let detailsIngredientsNormalize = detailsIngredients.ingredient
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
+
+        ingredientsTags.push(detailsIngredientsNormalize);
+        uniqueIngredientsSet.add(detailsIngredientsNormalize);
+      }
+    }
+  }
+  uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
+  console.log(uniqueIngredientsList);
+
+  for (
+    let uniqueIngredient = 0;
+    uniqueIngredient < uniqueIngredientsList.length;
+    uniqueIngredient++
+  ) {
+    ingredientList.innerHTML += `<li>${uniqueIngredientsList[uniqueIngredient]}</li>`;
   }
 }
+
+function appliancesDisplay(arrayFilteredRecipeIndex) {}
 
 function addFilterIngredientTag(i, ingredientElement) {
   const filterTag = document.querySelector(".tag");

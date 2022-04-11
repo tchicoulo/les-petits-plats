@@ -26,14 +26,7 @@ function initData() {
       }
 
       if (detailsIngredients.quantity) {
-        //normaliser les ingrédients et les mettre en minuscule
-        let detailsIngredientsNorm = detailsIngredients.ingredient
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase();
-
         arrayIngredients.push(detailsIngredients);
-        uniqueIngredientsSet.add(detailsIngredientsNorm);
       }
     }
     recipe["ingredients"] = arrayIngredients;
@@ -43,7 +36,7 @@ function initData() {
 
   uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
 
-  ingredientsDisplay(uniqueIngredientsList);
+  ingredientsDisplay(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 
