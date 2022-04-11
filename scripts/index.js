@@ -21,33 +21,16 @@ filterListArrowCloseButton.forEach((filterClosebutton, index) => {
 });
 
 function toggleFilter(index) {
+  resetFilter();
   if (index === 0) {
-    ingredientElement.classList.toggle("hide");
+    ingredientElement.classList.add("hide");
     ingredientsElementList.classList.toggle("show");
-
-    appliancesElement.classList.remove("hide");
-    appliancesElementList.classList.remove("show");
-
-    utensilsElement.classList.remove("hide");
-    utensilsElementList.classList.remove("show");
   } else if (index === 1) {
-    appliancesElement.classList.toggle("hide");
     appliancesElementList.classList.toggle("show");
-
-    ingredientElement.classList.remove("hide");
-    ingredientsElementList.classList.remove("show");
-
-    utensilsElement.classList.remove("hide");
-    utensilsElementList.classList.remove("show");
+    appliancesElement.classList.add("hide");
   } else if (index === 2) {
-    utensilsElement.classList.toggle("hide");
     utensilsElementList.classList.toggle("show");
-
-    appliancesElement.classList.remove("hide");
-    appliancesElementList.classList.remove("show");
-
-    ingredientElement.classList.remove("hide");
-    ingredientsElementList.classList.remove("show");
+    utensilsElement.classList.add("hide");
   }
 }
 
@@ -55,5 +38,14 @@ function closeFilter(e, index) {
   if (index === "undefined") {
     e.preventDefault();
   }
-  toggleFilter(index);
+  resetFilter();
+}
+
+function resetFilter() {
+  ingredientElement.classList.remove("hide");
+  appliancesElement.classList.remove("hide");
+  utensilsElement.classList.remove("hide");
+  ingredientsElementList.classList.remove("show");
+  appliancesElementList.classList.remove("show");
+  utensilsElementList.classList.remove("show");
 }

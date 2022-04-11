@@ -1,13 +1,11 @@
-import { recipes } from "../../../../data/recipes.js";
-import { mealsDisplay } from "../mealsDisplay.js";
-import { ingredientsDisplay } from "../models/filters.js";
+import { recipes } from "../../data/recipes.js";
+import { mealsDisplay } from "./mealsDisplay.js";
+import { ingredientsDisplay, appliancesDisplay } from "./filters.js";
 
 //Supprime les ingredients sans quantité et uniformise les données
 function initData() {
   let arrayFilteredRecipeIndex = [];
-  let uniqueIngredientsList = [];
 
-  let uniqueIngredientsSet = new Set();
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
 
@@ -32,11 +30,8 @@ function initData() {
     recipe["ingredients"] = arrayIngredients;
   }
 
-  console.log(arrayFilteredRecipeIndex);
-
-  uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
-
   ingredientsDisplay(arrayFilteredRecipeIndex);
+  appliancesDisplay(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 

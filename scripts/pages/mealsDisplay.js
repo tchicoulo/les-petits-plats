@@ -1,6 +1,6 @@
-import { recipes } from "../../../data/recipes.js";
-import { searchFilter } from "./models/searchBar.js";
-import { initData } from "./models/initData.js";
+import { recipes } from "../../data/recipes.js";
+import { searchFilter } from "./searchBar.js";
+import { initData } from "./initData.js";
 
 const searchContainer = document.querySelector(".search-container input");
 

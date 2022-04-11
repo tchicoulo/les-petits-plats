@@ -1,5 +1,5 @@
-import { recipes } from "../../../../data/recipes.js";
-import { mealsDisplay } from "../mealsDisplay.js";
+import { recipes } from "../../data/recipes.js";
+import { mealsDisplay } from "./mealsDisplay.js";
 import { filterIngredients } from "./filters.js";
 
 // Recherche les index de recettes par mots clés

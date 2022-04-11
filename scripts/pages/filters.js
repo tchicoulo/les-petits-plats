@@ -1,4 +1,4 @@
-import { recipes } from "../../../../data/recipes.js";
+import { recipes } from "../../data/recipes.js";
 
 setTimeout(() => {
   const ingredientElement = document.querySelectorAll(".ingredients-list li");
@@ -16,8 +16,6 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
   let uniqueIngredientsList = [];
   ingredientList.innerHTML = "";
 
-  console.log(arrayFilteredRecipeIndex);
-
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
 
@@ -25,7 +23,6 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
 
     for (let j = 0; j < recipe.ingredients.length; j++) {
       let detailsIngredients = recipe.ingredients[j];
-      // console.log(recipe.ingredients[j]);
 
       if (detailsIngredients.quantity) {
         //normaliser les ingrédients et les mettre en minuscule
@@ -51,7 +48,19 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
   }
 }
 
-function appliancesDisplay(arrayFilteredRecipeIndex) {}
+function appliancesDisplay(arrayFilteredRecipeIndex) {
+  let appliancesList = document.querySelector(".appliances-list");
+  let appliancesTags = [];
+
+  let uniqueAppliancesSet = new Set();
+  let uniqueAppliancesList = [];
+  appliancesList.innerHTML = "";
+
+  for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
+    let recipeIndex = arrayFilteredRecipeIndex[i];
+    let recipe = recipes[recipeIndex];
+  }
+}
 
 function addFilterIngredientTag(i, ingredientElement) {
   const filterTag = document.querySelector(".tag");
@@ -83,4 +92,4 @@ function filterIngredients(arrayFilteredRecipeIndex) {
   ingredientsDisplay(arrayFilteredRecipeIndex);
 }
 
-export { filterIngredients, ingredientsDisplay };
+export { filterIngredients, ingredientsDisplay, appliancesDisplay };
