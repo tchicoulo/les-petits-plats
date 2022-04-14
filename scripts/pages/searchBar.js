@@ -18,49 +18,49 @@ function filterAction() {
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
     let isValidWord = searchWords(recipe);
-    let isValidTag = containsTags(recipe);
+    // let isValidTag = containsTags(recipe);
 
     if (isValidWord) {
       arrayFilteredRecipeIndex.push(i);
       console.log(arrayFilteredRecipeIndex);
     }
-    if (isValidTag) {
-      arrayFilteredRecipeIndex.push(i);
-      console.log(arrayFilteredRecipeIndex);
-    }
+    // if (isValidTag) {
+    //   arrayFilteredRecipeIndex.push(i);
+    //   console.log(arrayFilteredRecipeIndex);
+    // }
   }
   ingredientsDisplay(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 
-function containsTags(recipe) {
-  if (filters.ingredients.length > 0) {
-    for (let i = 0; i < filters.ingredients.length; i++) {
-      let searchedIngredient = filters.ingredients[i].toLowerCase();
-      let hasIngredient = false;
-      for (let j = 0; j < recipe.ingredients.length; j++) {
-        let actualIngredient = recipe.ingredients[j].ingredient;
-        if (actualIngredient.toLowerCase() === searchedIngredient) {
-          hasIngredient = true;
-          break;
-        }
-      }
+// function containsTags(recipe) {
+//   if (filters.ingredients.length > 0) {
+//     for (let i = 0; i < filters.ingredients.length; i++) {
+//       let searchedIngredient = filters.ingredients[i].toLowerCase();
+//       let hasIngredient = false;
+//       for (let j = 0; j < recipe.ingredients.length; j++) {
+//         let actualIngredient = recipe.ingredients[j].ingredient;
+//         if (actualIngredient.toLowerCase() === searchedIngredient) {
+//           hasIngredient = true;
+//           break;
+//         }
+//       }
 
-      if (!hasIngredient) {
-        return false;
-      }
-    }
-  }
+//       if (!hasIngredient) {
+//         return false;
+//       }
+//     }
+//   }
 
-  // if (filters.appliances.length > 0) {
-  //   //todo
-  // }
+//   // if (filters.appliances.length > 0) {
+//   //   //todo
+//   // }
 
-  // if (filters.utensils.length > 0) {
-  //   //todo
-  // }
-  return true;
-}
+//   // if (filters.utensils.length > 0) {
+//   //   //todo
+//   // }
+//   return true;
+// }
 
 /**
  * indiquer si les mots sont présents dans la recettes

@@ -84,18 +84,27 @@ function addFilterIngredientTag(i, ingredientElement) {
   filterTag.appendChild(divTag);
 
   deleteTag.addEventListener("click", () => {
-    let valueTagDeleted = divTag.firstChild.innerHTML;
-    divTag.remove();
-    filters.searchWord = filters.searchWord.filter(
-      (tag) => tag !== valueTagDeleted
-    );
-    console.log(filters.searchWord);
-    filters.ingredients = filters.ingredients.filter(
-      (ingredient) => ingredient !== valueTagDeleted
-    );
-    console.log(filters.ingredients);
-    filterAction();
+    deleteFilterTag(divTag);
   });
+
+  filterAction();
+}
+
+function deleteFilterTag(divTag) {
+  let valueTagDeleted = divTag.firstChild.innerHTML;
+  divTag.remove();
+  filters.searchWord = filters.searchWord.filter(
+    (tag) => tag !== valueTagDeleted
+  );
+  console.log(filters.searchWord);
+  filters.ingredients = filters.ingredients.filter(
+    (ingredient) => ingredient !== valueTagDeleted
+  );
+  console.log(filters.ingredients);
+  if (filters.searchWord.length === 0) {
+    console.log("vide.");
+  }
+  filterAction();
 }
 
 export { ingredientsDisplay, appliancesDisplay };
