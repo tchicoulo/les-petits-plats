@@ -1,19 +1,20 @@
 import { recipes } from "../../data/recipes.js";
+import { filters } from "./searchBar.js";
+import { filterAction } from "./searchBar.js";
 
-setTimeout(() => {
+function targetListIngredients() {
   const ingredientElement = document.querySelectorAll(".ingredients-list li");
   for (let i = 0; i < ingredientElement.length; i++) {
-    ingredientElement[i].addEventListener("click", () =>
-      addFilterIngredientTag(i, ingredientElement)
-    );
+    ingredientElement[i].addEventListener("click", () => {
+      addFilterIngredientTag(i, ingredientElement);
+    });
   }
-}, 300);
+}
 
 function ingredientsDisplay(arrayFilteredRecipeIndex) {
   let ingredientList = document.querySelector(".ingredients-list");
   let ingredientsTags = [];
   let uniqueIngredientsSet = new Set();
-  let uniqueIngredientsList = [];
   ingredientList.innerHTML = "";
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
@@ -36,16 +37,17 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
       }
     }
   }
-  uniqueIngredientsList = Array.from(uniqueIngredientsSet).sort();
-  console.log(uniqueIngredientsList);
+  filters.ingredients = Array.from(uniqueIngredientsSet).sort();
+  console.log(filters.ingredients);
 
   for (
     let uniqueIngredient = 0;
-    uniqueIngredient < uniqueIngredientsList.length;
+    uniqueIngredient < filters.ingredients.length;
     uniqueIngredient++
   ) {
-    ingredientList.innerHTML += `<li>${uniqueIngredientsList[uniqueIngredient]}</li>`;
+    ingredientList.innerHTML += `<li>${filters.ingredients[uniqueIngredient]}</li>`;
   }
+  targetListIngredients();
 }
 
 function appliancesDisplay(arrayFilteredRecipeIndex) {
@@ -67,29 +69,33 @@ function addFilterIngredientTag(i, ingredientElement) {
   console.log(ingredientElement[i].innerHTML);
   ingredientElement[i].remove();
 
-  filterTag.innerHTML += `
-    <div class="filtered-details">
-      <span>${ingredientElement[i].innerHTML}</span>
-      <img class="delete-selected-filter" src="./assets/icons/delete.svg" />
-    </div>
-  `;
+  filters.ingredients.push(ingredientElement[i].innerHTML);
+  filters.searchWord.push(ingredientElement[i].innerHTML);
 
-  deleteFiltertag();
+  console.log(filters.searchWord);
+
+  const divTag = document.createElement("div");
+  divTag.classList.add("filtered-details");
+  divTag.innerHTML = `<span>${ingredientElement[i].innerHTML}</span>`;
+  const deleteTag = document.createElement("img");
+  deleteTag.classList.add("delete-selected-filter");
+  deleteTag.setAttribute("src", "./assets/icons/delete.svg");
+  divTag.appendChild(deleteTag);
+  filterTag.appendChild(divTag);
+
+  deleteTag.addEventListener("click", () => {
+    let valueTagDeleted = divTag.firstChild.innerHTML;
+    divTag.remove();
+    filters.searchWord = filters.searchWord.filter(
+      (tag) => tag !== valueTagDeleted
+    );
+    console.log(filters.searchWord);
+    filters.ingredients = filters.ingredients.filter(
+      (ingredient) => ingredient !== valueTagDeleted
+    );
+    console.log(filters.ingredients);
+    filterAction();
+  });
 }
 
-function deleteFiltertag() {
-  const deleteTag = document.querySelectorAll(".delete-selected-filter");
-  for (let i = 0; i < deleteTag.length; i++) {
-    deleteTag[i].addEventListener("click", (e) => {
-      e.path[1].remove();
-    });
-  }
-}
-
-function filterIngredients(arrayFilteredRecipeIndex) {
-  console.log(arrayFilteredRecipeIndex);
-
-  ingredientsDisplay(arrayFilteredRecipeIndex);
-}
-
-export { filterIngredients, ingredientsDisplay, appliancesDisplay };
+export { ingredientsDisplay, appliancesDisplay };

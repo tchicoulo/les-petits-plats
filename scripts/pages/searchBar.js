@@ -1,24 +1,65 @@
 import { recipes } from "../../data/recipes.js";
 import { mealsDisplay } from "./mealsDisplay.js";
-import { filterIngredients } from "./filters.js";
+import { ingredientsDisplay } from "./filters.js";
+import { filtersRules } from "./filtersRules.js";
+
+const filters = filtersRules();
 
 // Recherche les index de recettes par mots clés
-function searchFilter(e, arrayFilteredRecipeIndex) {
+function searchFilter(e) {
+  filters.searchWord = e.target.value.split(" ");
+  filterAction();
+}
+
+function filterAction() {
   // tableau des index qui correspondent
-  arrayFilteredRecipeIndex = [];
-  //tableau des mots inscrits dans l'input
-  const search = e.target.value.split(" ");
-  //transformer search pour la casse en maj et sans accents
+  let arrayFilteredRecipeIndex = [];
+
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
-    let isValid = searchWords(recipe, search);
+    let isValidWord = searchWords(recipe);
+    let isValidTag = containsTags(recipe);
 
-    if (isValid) {
+    if (isValidWord) {
       arrayFilteredRecipeIndex.push(i);
+      console.log(arrayFilteredRecipeIndex);
+    }
+    if (isValidTag) {
+      arrayFilteredRecipeIndex.push(i);
+      console.log(arrayFilteredRecipeIndex);
     }
   }
-  filterIngredients(arrayFilteredRecipeIndex);
+  ingredientsDisplay(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
+}
+
+function containsTags(recipe) {
+  if (filters.ingredients.length > 0) {
+    for (let i = 0; i < filters.ingredients.length; i++) {
+      let searchedIngredient = filters.ingredients[i].toLowerCase();
+      let hasIngredient = false;
+      for (let j = 0; j < recipe.ingredients.length; j++) {
+        let actualIngredient = recipe.ingredients[j].ingredient;
+        if (actualIngredient.toLowerCase() === searchedIngredient) {
+          hasIngredient = true;
+          break;
+        }
+      }
+
+      if (!hasIngredient) {
+        return false;
+      }
+    }
+  }
+
+  // if (filters.appliances.length > 0) {
+  //   //todo
+  // }
+
+  // if (filters.utensils.length > 0) {
+  //   //todo
+  // }
+  return true;
 }
 
 /**
@@ -28,21 +69,43 @@ function searchFilter(e, arrayFilteredRecipeIndex) {
  * @returns {boolean} true : si tous les mots sont trouvés
  */
 
-function searchWords(recipe, search) {
+function searchWords(recipe) {
+  const search = filters.searchWord;
+
   //Boucle de recherche par mots
   for (let searchIndex = 0; searchIndex < search.length; searchIndex++) {
     let searchWord = search[searchIndex];
 
-    if (recipe.name.includes(searchWord)) {
+    const searchWordNormalized = searchWord
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    const recipeNameNormalized = recipe.name
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    const recipeDescriptionNormalized = recipe.description
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+    if (recipeNameNormalized.includes(searchWordNormalized)) {
       continue;
-    } else if (recipe.description.includes(searchWord)) {
+    } else if (recipeDescriptionNormalized.includes(searchWordNormalized)) {
       continue;
     } else {
       // hasResult = mot présent dans un ingredient
       let hasResult = false;
 
       for (let j = 0; j < recipe.ingredients.length; j++) {
-        if (recipe.ingredients[j].ingredient.includes(searchWord)) {
+        const recipeIngredientsNormalized = recipe.ingredients[j].ingredient
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .toLowerCase();
+
+        if (recipeIngredientsNormalized.includes(searchWordNormalized)) {
           // mot tapé dans l'input présent dans l'ingrédient
           hasResult = true;
           break;
@@ -59,4 +122,5 @@ function searchWords(recipe, search) {
   return true;
 }
 
-export { searchFilter };
+export { searchFilter, filterAction };
+export { filters };

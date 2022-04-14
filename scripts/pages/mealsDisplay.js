@@ -21,8 +21,6 @@ function mealsDisplay(arrayFilteredRecipeIndex) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
 
     let ingredients = [];
-    // let appliances = [];
-    // let utensils = [];
     let recipe = recipes[recipeIndex];
 
     for (let j = 0; j < recipe.ingredients.length; j++) {
@@ -56,25 +54,6 @@ function mealsDisplay(arrayFilteredRecipeIndex) {
   }
 }
 
-// let inputIngredient = document.getElementById("ingredients");
-
-// inputIngredient.addEventListener("input", (e) => {
-//   // let filteredIngredient = genericFilterSearch(
-//   //   uniqueIngredientsList,
-//   //   e.target.value
-//   // );
-//   ingredientsDisplay();
-// });
-
-// function ingredientsDisplay(ingredientNameList) {
-//   let ingredientList = document.querySelector(".ingredients-list");
-//   ingredientList.innerHTML = "";
-//   for (let i = 0; i < ingredientNameList.length; i++) {
-//     ingredientList.innerHTML += `<li>${ingredientNameList[i]}</li>`;
-//   }
-// }
-
 initData();
-// ingredientsDisplay();
 
 export { mealsDisplay };

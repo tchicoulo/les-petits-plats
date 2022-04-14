@@ -4,12 +4,8 @@ import { ingredientsDisplay, appliancesDisplay } from "./filters.js";
 
 //Supprime les ingredients sans quantité et uniformise les données
 function initData() {
-  let arrayFilteredRecipeIndex = [];
-
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
-
-    arrayFilteredRecipeIndex.push(i);
 
     let arrayIngredients = [];
     // let arrayAppliances = [];
@@ -28,6 +24,12 @@ function initData() {
       }
     }
     recipe["ingredients"] = arrayIngredients;
+  }
+
+  let arrayFilteredRecipeIndex = [];
+  // boucle pour reset les index
+  for (let i = 0; i < recipes.length; i++) {
+    arrayFilteredRecipeIndex.push(i);
   }
 
   ingredientsDisplay(arrayFilteredRecipeIndex);
