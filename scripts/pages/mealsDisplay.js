@@ -27,8 +27,12 @@ function mealsDisplay(arrayFilteredRecipeIndex) {
       let detailsIngredients = recipe.ingredients[j];
       let quantity = detailsIngredients.quantity;
 
+      detailsIngredients =
+        detailsIngredients.ingredient.charAt(0).toUpperCase() +
+        detailsIngredients.ingredient.slice(1);
+
       ingredients.push(
-        `<li><b>${detailsIngredients.ingredient}: </b>${quantity} ${
+        `<li><b>${detailsIngredients}: </b>${quantity} ${
           detailsIngredients.unit ? detailsIngredients.unit : ""
         }`
       );

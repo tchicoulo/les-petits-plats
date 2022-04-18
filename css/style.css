@@ -178,7 +178,8 @@ header {
 }
 
 .container-list li {
-  width: 33%;
+  width: 30%;
+  margin: 5px;
   height: 40px;
   min-width: 120px;
 }

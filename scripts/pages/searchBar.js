@@ -1,6 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { mealsDisplay } from "./mealsDisplay.js";
-import { ingredientsDisplay } from "./filters.js";
+import { tagsSanify } from "./filters.js";
 import { filtersRules } from "./filtersRules.js";
 
 const filters = filtersRules();
@@ -29,7 +29,7 @@ function filterAction() {
     //   console.log(arrayFilteredRecipeIndex);
     // }
   }
-  ingredientsDisplay(arrayFilteredRecipeIndex);
+  tagsSanify(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 

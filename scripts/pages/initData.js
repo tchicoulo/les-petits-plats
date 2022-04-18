@@ -1,6 +1,6 @@
 import { recipes } from "../../data/recipes.js";
 import { mealsDisplay } from "./mealsDisplay.js";
-import { ingredientsDisplay, appliancesDisplay } from "./filters.js";
+import { tagsSanify } from "./filters.js";
 
 //Supprime les ingredients sans quantité et uniformise les données
 function initData() {
@@ -32,8 +32,7 @@ function initData() {
     arrayFilteredRecipeIndex.push(i);
   }
 
-  ingredientsDisplay(arrayFilteredRecipeIndex);
-  appliancesDisplay(arrayFilteredRecipeIndex);
+  tagsSanify(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
 

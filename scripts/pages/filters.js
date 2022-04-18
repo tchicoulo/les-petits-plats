@@ -11,17 +11,16 @@ function targetListIngredients() {
   }
 }
 
-function ingredientsDisplay(arrayFilteredRecipeIndex) {
-  let ingredientList = document.querySelector(".ingredients-list");
-  let ingredientsTags = [];
+function tagsSanify(arrayFilteredRecipeIndex) {
   let uniqueIngredientsSet = new Set();
-  ingredientList.innerHTML = "";
+  let uniqueAppliancesSet = new Set();
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
 
     let recipe = recipes[recipeIndex];
 
+    //Sanify ingredients
     for (let j = 0; j < recipe.ingredients.length; j++) {
       let detailsIngredients = recipe.ingredients[j];
 
@@ -32,13 +31,39 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
           .replace(/[\u0300-\u036f]/g, "")
           .toLowerCase();
 
-        ingredientsTags.push(detailsIngredientsNormalize);
+        // ingredientsTags.push(detailsIngredientsNormalize);
         uniqueIngredientsSet.add(detailsIngredientsNormalize);
       }
     }
+    //Sanify appliances
+    console.log(recipe.appliance);
+    let detailsAppliances = recipe.appliance;
+
+    let detailsAppliancesNormalize = detailsAppliances
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .split(".")[0]
+      .toLowerCase();
+
+    uniqueAppliancesSet.add(detailsAppliancesNormalize);
   }
+
   filters.ingredients = Array.from(uniqueIngredientsSet).sort();
+  filters.ingredients = filters.ingredients.filter(
+    (e) => e !== "bananes" && e !== "huile d'olive" && e !== "kiwi"
+  );
+  filters.appliances = Array.from(uniqueAppliancesSet).sort();
+  filters.appliances = filters.appliances.filter((e) => e !== "casserolle");
   console.log(filters.ingredients);
+  console.log(filters.appliances);
+
+  ingredientDisplay();
+  targetListIngredients();
+}
+
+function ingredientDisplay() {
+  let ingredientList = document.querySelector(".ingredients-list");
+  ingredientList.innerHTML = "";
 
   for (
     let uniqueIngredient = 0;
@@ -47,15 +72,11 @@ function ingredientsDisplay(arrayFilteredRecipeIndex) {
   ) {
     ingredientList.innerHTML += `<li>${filters.ingredients[uniqueIngredient]}</li>`;
   }
-  targetListIngredients();
 }
 
 function appliancesDisplay(arrayFilteredRecipeIndex) {
   let appliancesList = document.querySelector(".appliances-list");
-  let appliancesTags = [];
 
-  let uniqueAppliancesSet = new Set();
-  let uniqueAppliancesList = [];
   appliancesList.innerHTML = "";
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
@@ -107,4 +128,4 @@ function deleteFilterTag(divTag) {
   filterAction();
 }
 
-export { ingredientsDisplay, appliancesDisplay };
+export { tagsSanify, appliancesDisplay };
