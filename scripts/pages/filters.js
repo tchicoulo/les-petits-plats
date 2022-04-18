@@ -14,6 +14,7 @@ function targetListIngredients() {
 function tagsSanify(arrayFilteredRecipeIndex) {
   let uniqueIngredientsSet = new Set();
   let uniqueAppliancesSet = new Set();
+  let uniqueUtensilsSet = new Set();
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
@@ -31,12 +32,11 @@ function tagsSanify(arrayFilteredRecipeIndex) {
           .replace(/[\u0300-\u036f]/g, "")
           .toLowerCase();
 
-        // ingredientsTags.push(detailsIngredientsNormalize);
         uniqueIngredientsSet.add(detailsIngredientsNormalize);
       }
     }
+
     //Sanify appliances
-    console.log(recipe.appliance);
     let detailsAppliances = recipe.appliance;
 
     let detailsAppliancesNormalize = detailsAppliances
@@ -46,33 +46,47 @@ function tagsSanify(arrayFilteredRecipeIndex) {
       .toLowerCase();
 
     uniqueAppliancesSet.add(detailsAppliancesNormalize);
+
+    //Sanify utensils
+    for (let j = 0; j < recipe.ustensils.length; j++) {
+      let detailsUtensils = recipe.ustensils[j];
+      console.log(detailsUtensils);
+
+      let detailsUtensilsNormalize = detailsUtensils
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .split("(6)")[0]
+        .toLowerCase();
+
+      uniqueUtensilsSet.add(detailsUtensilsNormalize);
+    }
   }
 
+  //Sort(), filter() and addFisrtMaj function on each list
   filters.ingredients = Array.from(uniqueIngredientsSet).sort();
   filters.ingredients = filters.ingredients.filter(
     (e) => e !== "bananes" && e !== "huile d'olive" && e !== "kiwi"
   );
-
-  //Add maj for each string in array
-  for (let i = 0; i < filters.ingredients.length; i++) {
-    filters.ingredients[i] =
-      filters.ingredients[i].charAt(0).toUpperCase() +
-      filters.ingredients[i].slice(1);
-  }
+  addFirstMajOnEachStringInArray(filters.ingredients);
 
   filters.appliances = Array.from(uniqueAppliancesSet).sort();
   filters.appliances = filters.appliances.filter((e) => e !== "casserolle");
+  addFirstMajOnEachStringInArray(filters.appliances);
 
-  // Add maj
-  for (let i = 0; i < filters.appliances.length; i++) {
-    filters.appliances[i] =
-      filters.appliances[i].charAt(0).toUpperCase() +
-      filters.appliances[i].slice(1);
-  }
+  filters.utensils = Array.from(uniqueUtensilsSet).sort();
+
+  addFirstMajOnEachStringInArray(filters.utensils);
 
   ingredientDisplay();
   appliancesDisplay();
+  utensilsDisplay();
   targetListIngredients();
+}
+
+function addFirstMajOnEachStringInArray(array) {
+  for (let i = 0; i < array.length; i++) {
+    array[i] = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+  }
 }
 
 function ingredientDisplay() {
@@ -86,11 +100,19 @@ function ingredientDisplay() {
 
 function appliancesDisplay() {
   let appliancesList = document.querySelector(".appliances-list");
-  console.log(filters.appliances);
   appliancesList.innerHTML = "";
 
   for (let i = 0; i < filters.appliances.length; i++) {
     appliancesList.innerHTML += `<li>${filters.appliances[i]}</li>`;
+  }
+}
+
+function utensilsDisplay() {
+  let utensilsList = document.querySelector(".utensils-list");
+  utensilsList.innerHTML = "";
+
+  for (let i = 0; i < filters.utensils.length; i++) {
+    utensilsList.innerHTML += `<li>${filters.utensils[i]}</li>`;
   }
 }
 
