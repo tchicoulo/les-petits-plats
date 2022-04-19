@@ -2,6 +2,7 @@ import { recipes } from "../../data/recipes.js";
 import { mealsDisplay } from "./mealsDisplay.js";
 import { tagsSanify } from "./filters.js";
 import { filtersRules } from "./filtersRules.js";
+import { cleanString } from "./utils.js";
 
 const filters = filtersRules();
 
@@ -22,7 +23,6 @@ function filterAction() {
 
     if (isValidWord) {
       arrayFilteredRecipeIndex.push(i);
-      console.log(arrayFilteredRecipeIndex);
     }
     // if (isValidTag) {
     //   arrayFilteredRecipeIndex.push(i);
@@ -76,20 +76,9 @@ function searchWords(recipe) {
   for (let searchIndex = 0; searchIndex < search.length; searchIndex++) {
     let searchWord = search[searchIndex];
 
-    const searchWordNormalized = searchWord
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-
-    const recipeNameNormalized = recipe.name
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
-
-    const recipeDescriptionNormalized = recipe.description
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .toLowerCase();
+    const searchWordNormalized = cleanString(searchWord);
+    const recipeNameNormalized = cleanString(recipe.name);
+    const recipeDescriptionNormalized = cleanString(recipe.description);
 
     if (recipeNameNormalized.includes(searchWordNormalized)) {
       continue;
@@ -100,10 +89,9 @@ function searchWords(recipe) {
       let hasResult = false;
 
       for (let j = 0; j < recipe.ingredients.length; j++) {
-        const recipeIngredientsNormalized = recipe.ingredients[j].ingredient
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase();
+        const recipeIngredientsNormalized = cleanString(
+          recipe.ingredients[j].ingredient
+        );
 
         if (recipeIngredientsNormalized.includes(searchWordNormalized)) {
           // mot tapé dans l'input présent dans l'ingrédient

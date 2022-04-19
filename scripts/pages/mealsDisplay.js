@@ -1,13 +1,18 @@
 import { recipes } from "../../data/recipes.js";
 import { searchFilter } from "./searchBar.js";
 import { initData } from "./initData.js";
+import { filters } from "./searchBar.js";
 
 const searchContainer = document.querySelector(".search-container input");
 
 searchContainer.addEventListener("input", (e) => {
   if (e.target.value.length >= 3) {
     searchFilter(e);
-  } else if (e.target.value.length === 0) {
+    console.log(document.querySelector(".filtered-details"));
+  } else if (
+    e.target.value.length === 0 &&
+    document.querySelector(".filtered-details") == null
+  ) {
     initData();
   }
 });

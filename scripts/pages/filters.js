@@ -1,6 +1,7 @@
 import { recipes } from "../../data/recipes.js";
 import { filters } from "./searchBar.js";
 import { filterAction } from "./searchBar.js";
+import { cleanString } from "./utils.js";
 
 function targetListIngredients() {
   const ingredientElement = document.querySelectorAll(".ingredients-list li");
@@ -27,10 +28,9 @@ function tagsSanify(arrayFilteredRecipeIndex) {
 
       if (detailsIngredients.quantity) {
         //normaliser les ingrédients et les mettre en minuscule
-        let detailsIngredientsNormalize = detailsIngredients.ingredient
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "")
-          .toLowerCase();
+        let detailsIngredientsNormalize = cleanString(
+          detailsIngredients.ingredient
+        );
 
         uniqueIngredientsSet.add(detailsIngredientsNormalize);
       }
@@ -39,24 +39,15 @@ function tagsSanify(arrayFilteredRecipeIndex) {
     //Sanify appliances
     let detailsAppliances = recipe.appliance;
 
-    let detailsAppliancesNormalize = detailsAppliances
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .split(".")[0]
-      .toLowerCase();
+    let detailsAppliancesNormalize = cleanString(detailsAppliances);
 
     uniqueAppliancesSet.add(detailsAppliancesNormalize);
 
     //Sanify utensils
     for (let j = 0; j < recipe.ustensils.length; j++) {
       let detailsUtensils = recipe.ustensils[j];
-      console.log(detailsUtensils);
 
-      let detailsUtensilsNormalize = detailsUtensils
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .split("(6)")[0]
-        .toLowerCase();
+      let detailsUtensilsNormalize = cleanString(detailsUtensils);
 
       uniqueUtensilsSet.add(detailsUtensilsNormalize);
     }
@@ -77,9 +68,9 @@ function tagsSanify(arrayFilteredRecipeIndex) {
 
   addFirstMajOnEachStringInArray(filters.utensils);
 
-  ingredientDisplay();
-  appliancesDisplay();
-  utensilsDisplay();
+  filterTagsDisplay("ingredients");
+  filterTagsDisplay("appliances");
+  filterTagsDisplay("utensils");
   targetListIngredients();
 }
 
@@ -89,30 +80,12 @@ function addFirstMajOnEachStringInArray(array) {
   }
 }
 
-function ingredientDisplay() {
-  let ingredientList = document.querySelector(".ingredients-list");
-  ingredientList.innerHTML = "";
+function filterTagsDisplay(tag) {
+  let list = document.querySelector(`.${tag}-list`);
+  list.innerHTML = "";
 
-  for (let i = 0; i < filters.ingredients.length; i++) {
-    ingredientList.innerHTML += `<li>${filters.ingredients[i]}</li>`;
-  }
-}
-
-function appliancesDisplay() {
-  let appliancesList = document.querySelector(".appliances-list");
-  appliancesList.innerHTML = "";
-
-  for (let i = 0; i < filters.appliances.length; i++) {
-    appliancesList.innerHTML += `<li>${filters.appliances[i]}</li>`;
-  }
-}
-
-function utensilsDisplay() {
-  let utensilsList = document.querySelector(".utensils-list");
-  utensilsList.innerHTML = "";
-
-  for (let i = 0; i < filters.utensils.length; i++) {
-    utensilsList.innerHTML += `<li>${filters.utensils[i]}</li>`;
+  for (let i = 0; i < filters[tag].length; i++) {
+    list.innerHTML += `<li>${filters[tag][i]}</li>`;
   }
 }
 
@@ -159,4 +132,4 @@ function deleteFilterTag(divTag) {
   filterAction();
 }
 
-export { tagsSanify, appliancesDisplay };
+export { tagsSanify };
