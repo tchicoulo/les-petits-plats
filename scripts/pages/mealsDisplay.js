@@ -8,12 +8,9 @@ const searchContainer = document.querySelector(".search-container input");
 searchContainer.addEventListener("input", (e) => {
   if (e.target.value.length >= 3) {
     searchFilter(e);
-    console.log(document.querySelector(".filtered-details"));
-  } else if (
-    e.target.value.length === 0 &&
-    document.querySelector(".filtered-details") == null
-  ) {
-    initData();
+  } else if (e.target.value.length === 0) {
+    filters.searchWord.shift();
+    searchFilter(e);
   }
 });
 

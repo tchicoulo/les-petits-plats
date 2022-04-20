@@ -3,11 +3,12 @@ import { filters } from "./searchBar.js";
 import { filterAction } from "./searchBar.js";
 import { cleanString } from "./utils.js";
 
-function targetListIngredients() {
-  const ingredientElement = document.querySelectorAll(".ingredients-list li");
-  for (let i = 0; i < ingredientElement.length; i++) {
-    ingredientElement[i].addEventListener("click", () => {
-      addFilterIngredientTag(i, ingredientElement);
+function targetListTags(tag) {
+  const tagsElement = document.querySelectorAll(`.${tag}-list li`);
+
+  for (let i = 0; i < tagsElement.length; i++) {
+    tagsElement[i].addEventListener("click", () => {
+      addFilterIngredientTag(i, tagsElement);
     });
   }
 }
@@ -61,7 +62,9 @@ function tagsSanify(arrayFilteredRecipeIndex) {
   addFirstMajOnEachStringInArray(filters.ingredients);
 
   filters.appliances = Array.from(uniqueAppliancesSet).sort();
-  filters.appliances = filters.appliances.filter((e) => e !== "casserolle");
+  filters.appliances = filters.appliances.filter(
+    (e) => e !== "casserole" && e !== "casserolle."
+  );
   addFirstMajOnEachStringInArray(filters.appliances);
 
   filters.utensils = Array.from(uniqueUtensilsSet).sort();
@@ -71,7 +74,9 @@ function tagsSanify(arrayFilteredRecipeIndex) {
   filterTagsDisplay("ingredients");
   filterTagsDisplay("appliances");
   filterTagsDisplay("utensils");
-  targetListIngredients();
+  targetListTags("ingredients");
+  targetListTags("appliances");
+  targetListTags("utensils");
 }
 
 function addFirstMajOnEachStringInArray(array) {
@@ -89,19 +94,17 @@ function filterTagsDisplay(tag) {
   }
 }
 
-function addFilterIngredientTag(i, ingredientElement) {
+function addFilterIngredientTag(i, tagsElement) {
   const filterTag = document.querySelector(".tag");
-  console.log(ingredientElement[i].innerHTML);
-  ingredientElement[i].remove();
+  tagsElement[i].remove();
 
-  filters.ingredients.push(ingredientElement[i].innerHTML);
-  filters.searchWord.push(ingredientElement[i].innerHTML);
-
+  filters.searchWord.push(tagsElement[i].innerHTML);
+  filters.searchTag.push(tagsElement[i].innerHTML);
   console.log(filters.searchWord);
 
   const divTag = document.createElement("div");
   divTag.classList.add("filtered-details");
-  divTag.innerHTML = `<span>${ingredientElement[i].innerHTML}</span>`;
+  divTag.innerHTML = `<span>${tagsElement[i].innerHTML}</span>`;
   const deleteTag = document.createElement("img");
   deleteTag.classList.add("delete-selected-filter");
   deleteTag.setAttribute("src", "./assets/icons/delete.svg");
@@ -121,14 +124,12 @@ function deleteFilterTag(divTag) {
   filters.searchWord = filters.searchWord.filter(
     (tag) => tag !== valueTagDeleted
   );
-  console.log(filters.searchWord);
-  filters.ingredients = filters.ingredients.filter(
-    (ingredient) => ingredient !== valueTagDeleted
+  filters.searchTag = filters.searchTag.filter(
+    (tag) => tag !== valueTagDeleted
   );
-  console.log(filters.ingredients);
-  if (filters.searchWord.length === 0) {
-    console.log("vide.");
-  }
+  console.log(filters.searchWord);
+  console.log(filters.searchTag);
+
   filterAction();
 }
 

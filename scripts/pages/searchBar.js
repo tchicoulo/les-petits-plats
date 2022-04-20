@@ -9,6 +9,7 @@ const filters = filtersRules();
 // Recherche les index de recettes par mots clés
 function searchFilter(e) {
   filters.searchWord = e.target.value.split(" ");
+  filters.searchWord.push(...filters.searchTag);
   filterAction();
 }
 
@@ -24,43 +25,10 @@ function filterAction() {
     if (isValidWord) {
       arrayFilteredRecipeIndex.push(i);
     }
-    // if (isValidTag) {
-    //   arrayFilteredRecipeIndex.push(i);
-    //   console.log(arrayFilteredRecipeIndex);
-    // }
   }
   tagsSanify(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
-
-// function containsTags(recipe) {
-//   if (filters.ingredients.length > 0) {
-//     for (let i = 0; i < filters.ingredients.length; i++) {
-//       let searchedIngredient = filters.ingredients[i].toLowerCase();
-//       let hasIngredient = false;
-//       for (let j = 0; j < recipe.ingredients.length; j++) {
-//         let actualIngredient = recipe.ingredients[j].ingredient;
-//         if (actualIngredient.toLowerCase() === searchedIngredient) {
-//           hasIngredient = true;
-//           break;
-//         }
-//       }
-
-//       if (!hasIngredient) {
-//         return false;
-//       }
-//     }
-//   }
-
-//   // if (filters.appliances.length > 0) {
-//   //   //todo
-//   // }
-
-//   // if (filters.utensils.length > 0) {
-//   //   //todo
-//   // }
-//   return true;
-// }
 
 /**
  * indiquer si les mots sont présents dans la recettes
@@ -79,14 +47,19 @@ function searchWords(recipe) {
     const searchWordNormalized = cleanString(searchWord);
     const recipeNameNormalized = cleanString(recipe.name);
     const recipeDescriptionNormalized = cleanString(recipe.description);
+    const recipeApplianceNormalized = cleanString(recipe.appliance);
 
     if (recipeNameNormalized.includes(searchWordNormalized)) {
       continue;
     } else if (recipeDescriptionNormalized.includes(searchWordNormalized)) {
       continue;
+    } else if (recipeApplianceNormalized.includes(searchWordNormalized)) {
+      continue;
     } else {
-      // hasResult = mot présent dans un ingredient
-      let hasResult = false;
+      // hasResultIngredient = mot présent dans un ingredient
+      // hasResultUtensils = mot présent dans un ingredient
+      let hasResultIngredient = false;
+      let hasResultUtensils = false;
 
       for (let j = 0; j < recipe.ingredients.length; j++) {
         const recipeIngredientsNormalized = cleanString(
@@ -94,13 +67,25 @@ function searchWords(recipe) {
         );
 
         if (recipeIngredientsNormalized.includes(searchWordNormalized)) {
-          // mot tapé dans l'input présent dans l'ingrédient
-          hasResult = true;
+          hasResultIngredient = true;
           break;
         }
       }
-      // si mot trouvé, on cherche le mot suivant
-      if (hasResult) {
+      // si mot trouvé dans ingredient, on cherche le mot suivant
+      if (hasResultIngredient) {
+        continue;
+      }
+
+      for (let j = 0; j < recipe.ustensils.length; j++) {
+        const recipeUtensilNormalized = cleanString(recipe.ustensils[j]);
+
+        if (recipeUtensilNormalized.includes(searchWordNormalized)) {
+          hasResultUtensils = true;
+          break;
+        }
+      }
+      // si mot trouvé dans ustensils, on cherche le mot suivant
+      if (hasResultUtensils) {
         continue;
       }
       // mot non trouvé, recette rejeté
