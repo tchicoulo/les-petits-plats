@@ -20,7 +20,6 @@ function filterAction() {
   for (let i = 0; i < recipes.length; i++) {
     let recipe = recipes[i];
     let isValidWord = searchWords(recipe);
-    // let isValidTag = containsTags(recipe);
 
     if (isValidWord) {
       arrayFilteredRecipeIndex.push(i);

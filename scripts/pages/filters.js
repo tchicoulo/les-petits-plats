@@ -28,12 +28,7 @@ function tagsSanify(arrayFilteredRecipeIndex) {
       let detailsIngredients = recipe.ingredients[j];
 
       if (detailsIngredients.quantity) {
-        //normaliser les ingrédients et les mettre en minuscule
-        let detailsIngredientsNormalize = cleanString(
-          detailsIngredients.ingredient
-        );
-
-        uniqueIngredientsSet.add(detailsIngredientsNormalize);
+        filters.ingredients.push(detailsIngredients.ingredient);
       }
     }
 
@@ -54,12 +49,24 @@ function tagsSanify(arrayFilteredRecipeIndex) {
     }
   }
 
-  //Sort(), filter() and addFisrtMaj function on each list
-  filters.ingredients = Array.from(uniqueIngredientsSet).sort();
-  filters.ingredients = filters.ingredients.filter(
-    (e) => e !== "bananes" && e !== "huile d'olive" && e !== "kiwi"
-  );
   addFirstMajOnEachStringInArray(filters.ingredients);
+  const setIngredients = new Set(filters.ingredients);
+  filters.ingredients = Array.from(setIngredients).sort();
+
+  //Sort(), filter() and addFisrtMaj function on each list
+  // filters.ingredients = Array.from(uniqueIngredientsSet).sort();
+  filters.ingredients = filters.ingredients.filter(
+    (e) =>
+      e !== "Bananes" &&
+      e !== "Crème Fraiche" &&
+      e !== "Crème Fraiche" &&
+      e !== "Crême fraîche" &&
+      e !== "Crème Fraîche" &&
+      e !== "Crème Fraîche" &&
+      e !== "Crème fraiche" &&
+      e !== "Kiwis"
+  );
+  // addFirstMajOnEachStringInArray(filters.ingredients);
 
   filters.appliances = Array.from(uniqueAppliancesSet).sort();
   filters.appliances = filters.appliances.filter(
@@ -88,7 +95,14 @@ function addFirstMajOnEachStringInArray(array) {
 function filterTagsDisplay(tag) {
   let list = document.querySelector(`.${tag}-list`);
   list.innerHTML = "";
-
+  console.log(filters.searchTag);
+  if (filters.searchTag.length !== 0) {
+    for (let tagIndex = 0; tagIndex < filters.searchTag.length; tagIndex++) {
+      filters[tag] = filters[tag].filter(
+        (e) => e !== filters.searchTag[tagIndex]
+      );
+    }
+  }
   for (let i = 0; i < filters[tag].length; i++) {
     list.innerHTML += `<li>${filters[tag][i]}</li>`;
   }
@@ -96,15 +110,16 @@ function filterTagsDisplay(tag) {
 
 function addFilterIngredientTag(i, tagsElement) {
   const filterTag = document.querySelector(".tag");
-  tagsElement[i].remove();
 
   filters.searchWord.push(tagsElement[i].innerHTML);
   filters.searchTag.push(tagsElement[i].innerHTML);
-  console.log(filters.searchWord);
+
+  console.log(filters.searchTag);
 
   const divTag = document.createElement("div");
   divTag.classList.add("filtered-details");
   divTag.innerHTML = `<span>${tagsElement[i].innerHTML}</span>`;
+
   const deleteTag = document.createElement("img");
   deleteTag.classList.add("delete-selected-filter");
   deleteTag.setAttribute("src", "./assets/icons/delete.svg");
