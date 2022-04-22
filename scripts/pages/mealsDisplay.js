@@ -5,6 +5,7 @@ import { filters } from "./searchBar.js";
 
 const searchContainer = document.querySelector(".search-container input");
 
+//Barre de recherche principale
 searchContainer.addEventListener("input", (e) => {
   if (e.target.value.length >= 3) {
     searchFilter(e);
@@ -17,7 +18,6 @@ searchContainer.addEventListener("input", (e) => {
 function mealsDisplay(arrayFilteredRecipeIndex) {
   const result = document.getElementById("result");
   result.innerHTML = "";
-  console.log(arrayFilteredRecipeIndex);
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
@@ -57,6 +57,13 @@ function mealsDisplay(arrayFilteredRecipeIndex) {
             </div>
           </div>
           </li>`;
+  }
+
+  if (result.childNodes.length === 0) {
+    result.classList.add("no-result");
+    result.innerHTML = `Aucune recette ne correspond à votre critère… <br><br>
+    vous pouvez
+chercher « tarte aux pommes », « poisson », etc.`;
   }
 }
 

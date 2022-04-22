@@ -33,7 +33,7 @@ function filterAction() {
  * indiquer si les mots sont présents dans la recettes
  * @param {object} recipe objet de la recette
  * @param {string[]} search tableau des mots a rechercher
- * @returns {boolean} true : si tous les mots sont trouvés
+ * @return {boolean} true : si tous les mots sont trouvés
  */
 
 function searchWords(recipe) {
@@ -56,7 +56,7 @@ function searchWords(recipe) {
       continue;
     } else {
       // hasResultIngredient = mot présent dans un ingredient
-      // hasResultUtensils = mot présent dans un ingredient
+      // hasResultUtensils = mot présent dans un ustensile
       let hasResultIngredient = false;
       let hasResultUtensils = false;
 
@@ -87,7 +87,7 @@ function searchWords(recipe) {
       if (hasResultUtensils) {
         continue;
       }
-      // mot non trouvé, recette rejeté
+      // mot non trouvé
       return false;
     }
   }

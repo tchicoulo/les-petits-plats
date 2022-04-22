@@ -20,7 +20,6 @@ function tagsSanify(arrayFilteredRecipeIndex) {
 
   for (let i = 0; i < arrayFilteredRecipeIndex.length; i++) {
     let recipeIndex = arrayFilteredRecipeIndex[i];
-
     let recipe = recipes[recipeIndex];
 
     //Sanify ingredients
@@ -28,54 +27,49 @@ function tagsSanify(arrayFilteredRecipeIndex) {
       let detailsIngredients = recipe.ingredients[j];
 
       if (detailsIngredients.quantity) {
-        filters.ingredients.push(detailsIngredients.ingredient);
+        uniqueIngredientsSet.add(detailsIngredients.ingredient);
       }
     }
-
     //Sanify appliances
     let detailsAppliances = recipe.appliance;
-
-    let detailsAppliancesNormalize = cleanString(detailsAppliances);
-
-    uniqueAppliancesSet.add(detailsAppliancesNormalize);
+    uniqueAppliancesSet.add(detailsAppliances);
 
     //Sanify utensils
     for (let j = 0; j < recipe.ustensils.length; j++) {
       let detailsUtensils = recipe.ustensils[j];
-
-      let detailsUtensilsNormalize = cleanString(detailsUtensils);
-
-      uniqueUtensilsSet.add(detailsUtensilsNormalize);
+      uniqueUtensilsSet.add(detailsUtensils);
     }
   }
-
-  addFirstMajOnEachStringInArray(filters.ingredients);
-  const setIngredients = new Set(filters.ingredients);
-  filters.ingredients = Array.from(setIngredients).sort();
+  filters.ingredients = Array.from(uniqueIngredientsSet).sort();
 
   //Sort(), filter() and addFisrtMaj function on each list
-  // filters.ingredients = Array.from(uniqueIngredientsSet).sort();
   filters.ingredients = filters.ingredients.filter(
     (e) =>
       e !== "Bananes" &&
       e !== "Crème Fraiche" &&
-      e !== "Crème Fraiche" &&
       e !== "Crême fraîche" &&
       e !== "Crème Fraîche" &&
-      e !== "Crème Fraîche" &&
+      e !== "Huile d'olives" &&
       e !== "Crème fraiche" &&
+      e !== "Lait de Coco" &&
       e !== "Kiwis"
   );
-  // addFirstMajOnEachStringInArray(filters.ingredients);
+  addFirstMajOnEachStringInArray(filters.ingredients);
 
   filters.appliances = Array.from(uniqueAppliancesSet).sort();
   filters.appliances = filters.appliances.filter(
-    (e) => e !== "casserole" && e !== "casserolle."
+    (e) => e !== "Casserolle" && e !== "Casserolle."
   );
   addFirstMajOnEachStringInArray(filters.appliances);
 
   filters.utensils = Array.from(uniqueUtensilsSet).sort();
-
+  filters.utensils = filters.utensils.filter(
+    (e) =>
+      e !== "économe" &&
+      e !== "cuillère en bois" &&
+      e !== "poelle à frire" &&
+      e !== "cuillère à Soupe"
+  );
   addFirstMajOnEachStringInArray(filters.utensils);
 
   filterTagsDisplay("ingredients");
@@ -94,8 +88,8 @@ function addFirstMajOnEachStringInArray(array) {
 
 function filterTagsDisplay(tag) {
   let list = document.querySelector(`.${tag}-list`);
+  let inputTag = document.getElementById(`${tag}`);
   list.innerHTML = "";
-  console.log(filters.searchTag);
   if (filters.searchTag.length !== 0) {
     for (let tagIndex = 0; tagIndex < filters.searchTag.length; tagIndex++) {
       filters[tag] = filters[tag].filter(
@@ -106,6 +100,30 @@ function filterTagsDisplay(tag) {
   for (let i = 0; i < filters[tag].length; i++) {
     list.innerHTML += `<li>${filters[tag][i]}</li>`;
   }
+  if (list.childNodes.length === 0) {
+    list.innerHTML = "Plus de filtres possible";
+  }
+
+  inputTag.addEventListener("input", (e) => {
+    list.innerHTML = "";
+
+    for (let i = 0; i < filters[tag].length; i++) {
+      let matchList = [];
+
+      if (cleanString(filters[tag][i]).includes(cleanString(e.target.value))) {
+        matchList.push(filters[tag][i]);
+        for (let j = 0; j < matchList.length; j++) {
+          list.innerHTML += `<li>${matchList[j]}</li>`;
+        }
+      }
+    }
+    if (list.childNodes.length === 0) {
+      list.innerHTML = "Aucun résultat";
+    }
+    targetListTags("ingredients");
+    targetListTags("appliances");
+    targetListTags("utensils");
+  });
 }
 
 function addFilterIngredientTag(i, tagsElement) {
@@ -113,8 +131,6 @@ function addFilterIngredientTag(i, tagsElement) {
 
   filters.searchWord.push(tagsElement[i].innerHTML);
   filters.searchTag.push(tagsElement[i].innerHTML);
-
-  console.log(filters.searchTag);
 
   const divTag = document.createElement("div");
   divTag.classList.add("filtered-details");
@@ -142,8 +158,6 @@ function deleteFilterTag(divTag) {
   filters.searchTag = filters.searchTag.filter(
     (tag) => tag !== valueTagDeleted
   );
-  console.log(filters.searchWord);
-  console.log(filters.searchTag);
 
   filterAction();
 }
