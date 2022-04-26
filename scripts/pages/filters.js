@@ -120,9 +120,7 @@ function filterTagsDisplay(tag) {
     if (list.childNodes.length === 0) {
       list.innerHTML = "Aucun résultat";
     }
-    targetListTags("ingredients");
-    targetListTags("appliances");
-    targetListTags("utensils");
+    targetListTags(tag);
   });
 }
 
