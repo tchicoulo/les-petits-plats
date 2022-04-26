@@ -17,14 +17,13 @@ function filterAction() {
   // tableau des index qui correspondent
   let arrayFilteredRecipeIndex = [];
 
-  for (let i = 0; i < recipes.length; i++) {
-    let recipe = recipes[i];
-    let isValidWord = searchWords(recipe);
+  recipes.forEach((elem, index) => {
+    let isValidWord = searchWords(elem);
 
     if (isValidWord) {
-      arrayFilteredRecipeIndex.push(i);
+      arrayFilteredRecipeIndex.push(index);
     }
-  }
+  });
   tagsSanify(arrayFilteredRecipeIndex);
   mealsDisplay(arrayFilteredRecipeIndex);
 }
@@ -40,6 +39,7 @@ function searchWords(recipe) {
   const search = filters.searchWord;
 
   //Boucle de recherche par mots
+
   for (let searchIndex = 0; searchIndex < search.length; searchIndex++) {
     let searchWord = search[searchIndex];
 
