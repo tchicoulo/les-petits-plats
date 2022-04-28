@@ -40,9 +40,7 @@ function searchWords(recipe) {
 
   //Boucle de recherche par mots
 
-  for (let searchIndex = 0; searchIndex < search.length; searchIndex++) {
-    let searchWord = search[searchIndex];
-
+  for (let searchWord of search) {
     const searchWordNormalized = cleanString(searchWord);
     const recipeNameNormalized = cleanString(recipe.name);
     const recipeDescriptionNormalized = cleanString(recipe.description);
@@ -60,35 +58,34 @@ function searchWords(recipe) {
       let hasResultIngredient = false;
       let hasResultUtensils = false;
 
-      for (let j = 0; j < recipe.ingredients.length; j++) {
-        const recipeIngredientsNormalized = cleanString(
-          recipe.ingredients[j].ingredient
-        );
+      for (let ingredient of recipe.ingredients) {
+        const recipeIngredientsNormalized = cleanString(ingredient.ingredient);
 
         if (recipeIngredientsNormalized.includes(searchWordNormalized)) {
           hasResultIngredient = true;
           break;
         }
       }
-      // si mot trouvé dans ingredient, on cherche le mot suivant
-      if (hasResultIngredient) {
-        continue;
-      }
 
-      for (let j = 0; j < recipe.ustensils.length; j++) {
-        const recipeUtensilNormalized = cleanString(recipe.ustensils[j]);
+      for (let ustensil of recipe.ustensils) {
+        const recipeUtensilNormalized = cleanString(ustensil);
 
         if (recipeUtensilNormalized.includes(searchWordNormalized)) {
           hasResultUtensils = true;
           break;
         }
       }
-      // si mot trouvé dans ustensils, on cherche le mot suivant
-      if (hasResultUtensils) {
+      // si mot trouvé dans ustensils ou ingredient, on cherche le mot suivant
+      if (
+        hasResultIngredient ||
+        hasResultUtensils ||
+        (hasResultIngredient && hasResultUtensils)
+      ) {
         continue;
+      } else {
+        // mot non trouvé
+        return false;
       }
-      // mot non trouvé
-      return false;
     }
   }
   return true;
