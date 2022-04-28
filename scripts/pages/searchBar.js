@@ -48,11 +48,13 @@ function searchWords(recipe) {
     const recipeDescriptionNormalized = cleanString(recipe.description);
     const recipeApplianceNormalized = cleanString(recipe.appliance);
 
-    if (recipeNameNormalized.includes(searchWordNormalized)) {
+    if (recipeNameNormalized.indexOf(searchWordNormalized) !== -1) {
       continue;
-    } else if (recipeDescriptionNormalized.includes(searchWordNormalized)) {
+    } else if (
+      recipeDescriptionNormalized.indexOf(searchWordNormalized) !== -1
+    ) {
       continue;
-    } else if (recipeApplianceNormalized.includes(searchWordNormalized)) {
+    } else if (recipeApplianceNormalized.indexOf(searchWordNormalized) !== -1) {
       continue;
     } else {
       // hasResultIngredient = mot présent dans un ingredient
@@ -65,7 +67,7 @@ function searchWords(recipe) {
           recipe.ingredients[j].ingredient
         );
 
-        if (recipeIngredientsNormalized.includes(searchWordNormalized)) {
+        if (recipeIngredientsNormalized.indexOf(searchWordNormalized) !== -1) {
           hasResultIngredient = true;
           break;
         }
@@ -78,7 +80,7 @@ function searchWords(recipe) {
       for (let j = 0; j < recipe.ustensils.length; j++) {
         const recipeUtensilNormalized = cleanString(recipe.ustensils[j]);
 
-        if (recipeUtensilNormalized.includes(searchWordNormalized)) {
+        if (recipeUtensilNormalized.indexOf(searchWordNormalized) !== -1) {
           hasResultUtensils = true;
           break;
         }
