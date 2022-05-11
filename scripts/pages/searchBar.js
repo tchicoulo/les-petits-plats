@@ -37,7 +37,7 @@ function filterAction() {
  */
 
 function searchWords(recipe) {
-  const search = filters.searchWord;
+  let search = filters.searchWord;
 
   //Boucle de recherche par mots
   for (let searchWord of search) {
@@ -51,10 +51,6 @@ function searchWords(recipe) {
     for (let ustensil of recipe.ustensils) {
       words = words.concat(" ", cleanString(ustensil));
     }
-    // si mot trouvé dans ustensils ou ingredient, on cherche le mot suivant
-    words = new Set(words.split(" "));
-    words = [...words].filter((word) => word.length > 2);
-    words = words.toString();
 
     if (words.includes(cleanString(searchWord))) {
       continue;
