@@ -87,16 +87,20 @@ function addFirstMajOnEachStringInArray(array) {
 }
 
 function filterTagsDisplay(tag) {
+  //Affiche ingrédients, appareils, ustensils en fonction des recettes disponibles
+
   let list = document.querySelector(`.${tag}-list`);
   let inputTag = document.getElementById(`${tag}`);
   list.innerHTML = "";
   if (filters.searchTag.length !== 0) {
+    //Supprimer le tag de la liste si il est selectionné
     for (let tagIndex = 0; tagIndex < filters.searchTag.length; tagIndex++) {
       filters[tag] = filters[tag].filter(
         (e) => e !== filters.searchTag[tagIndex]
       );
     }
   }
+  //Affichage des tags disponibles
   for (let i = 0; i < filters[tag].length; i++) {
     list.innerHTML += `<li>${filters[tag][i]}</li>`;
   }
@@ -104,12 +108,14 @@ function filterTagsDisplay(tag) {
     list.innerHTML = "Plus de filtres possible";
   }
 
+  //Barre de recherche des tags
   inputTag.addEventListener("input", (e) => {
     list.innerHTML = "";
 
     for (let i = 0; i < filters[tag].length; i++) {
       let matchList = [];
 
+      // Si le ou les mots inscrit dans l'input match avec les tags, on les affiche
       if (cleanString(filters[tag][i]).includes(cleanString(e.target.value))) {
         matchList.push(filters[tag][i]);
         for (let j = 0; j < matchList.length; j++) {
@@ -117,6 +123,7 @@ function filterTagsDisplay(tag) {
         }
       }
     }
+    //Si ça ne match pas...
     if (list.childNodes.length === 0) {
       list.innerHTML = "Aucun résultat";
     }
