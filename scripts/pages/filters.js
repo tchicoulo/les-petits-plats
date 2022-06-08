@@ -8,7 +8,7 @@ function targetListTags(tag) {
 
   for (let i = 0; i < tagsElement.length; i++) {
     tagsElement[i].addEventListener("click", () => {
-      addFilterIngredientTag(i, tagsElement);
+      addFilterTag(i, tagsElement);
     });
   }
 }
@@ -131,7 +131,7 @@ function filterTagsDisplay(tag) {
   });
 }
 
-function addFilterIngredientTag(i, tagsElement) {
+function addFilterTag(i, tagsElement) {
   const filterTag = document.querySelector(".tag");
 
   filters.searchWord.push(tagsElement[i].innerHTML);
